@@ -1,0 +1,30 @@
+{
+  "name": "email-inbox-routing",
+  "version": "0.1.0",
+  "description": "AI-assisted shared-inbox email classification and routing (Outlook + LLM) - workplace automation showcase.",
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "probe-llm": "node scripts/probe-llm.mjs",
+    "probe-chat": "node scripts/probe-chat-completions.mjs",
+    "classify": "tsx scripts/classify.ts",
+    "classify:json": "tsx scripts/classify-json.ts",
+    "process:inbox": "tsx scripts/process-inbox.ts",
+    "setup": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1",
+    "verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1",
+    "pack": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/pack-team-zip.ps1",
+    "list-models": "tsx scripts/list-models.ts",
+    "graph:login": "tsx scripts/graph-login.ts",
+    "run:pipeline": "tsx scripts/run-pipeline.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "fast-check": "^3.22.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

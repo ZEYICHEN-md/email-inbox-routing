@@ -1,0 +1,13 @@
+dist/
+node_modules/
+dist/
+*.log
+.DS_Store
+.env
+.graph-token.json
+.pipeline-state.json
+data/
+inbox/*
+!inbox/.gitkeep
+inbox/processed/
+inbox/skipped/

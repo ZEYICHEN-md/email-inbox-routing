@@ -1,0 +1,2 @@
+# Drop .eml or .txt Contact Us notifications here for batch processing.
+# Run: npm run process:inbox
