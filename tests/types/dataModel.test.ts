@@ -60,7 +60,7 @@ describe("core data models", () => {
 
   it("constructs a ClassificationResult with per-candidate reasoning", () => {
     const result: ClassificationResult = {
-      candidates: [{ category: "ESG", score: 0.9, reasoning: "mentions sustainability" }],
+      candidates: [{ category: "KOL", score: 0.9, reasoning: "mentions sustainability" }],
     };
     expect(result.candidates[0]!.reasoning).toBe("mentions sustainability");
     expect(result.candidates[0]!.score).toBe(0.9);
@@ -70,13 +70,13 @@ describe("core data models", () => {
     const unclassified: Decision = { kind: "Unclassified", reasoning: "no confident category" };
     const single: Decision = {
       kind: "SingleCategory",
-      category: "ESG",
-      candidate: { category: "ESG", score: 0.9, reasoning: "r" },
+      category: "KOL",
+      candidate: { category: "KOL", score: 0.9, reasoning: "r" },
     };
     const ambiguous: Decision = {
       kind: "Ambiguous",
       candidates: [
-        { category: "ESG", score: 0.8, reasoning: "r1" },
+        { category: "KOL", score: 0.8, reasoning: "r1" },
         { category: "KOL", score: 0.85, reasoning: "r2" },
       ],
     };
@@ -104,8 +104,8 @@ describe("core data models", () => {
     const entry: AuditLogEntry = {
       emailId: "m-3",
       submitterEmail: "real.person@example.com",
-      candidates: [{ category: "ESG", score: 0.9, reasoning: "candidate reasoning" }],
-      finalCategory: "ESG",
+      candidates: [{ category: "KOL", score: 0.9, reasoning: "candidate reasoning" }],
+      finalCategory: "KOL",
       finalCategoryReasoning: "final category reasoning",
       decidedAt: 5_000,
       outcome: "FORWARDED",
@@ -147,7 +147,7 @@ describe("core data models", () => {
       email,
       reason: "AMBIGUOUS",
       candidates: [
-        { category: "ESG", score: 0.8, reasoning: "r1" },
+        { category: "KOL", score: 0.8, reasoning: "r1" },
         { category: "KOL", score: 0.82, reasoning: "r2" },
       ],
     };

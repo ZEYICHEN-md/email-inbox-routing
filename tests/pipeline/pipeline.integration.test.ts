@@ -187,21 +187,21 @@ describe("RoutingPipeline end-to-end smoke test", () => {
   });
 
   it("resolves a no-forward-resolve category without forwarding", () => {
-    const h = makeHarness([notification("n-noforward", ["Recruitment_Referral"])]);
+    const h = makeHarness([notification("n-noforward", ["Partner_Business_Referral"])]);
 
     const results = h.pipeline.runOnce();
 
     expect(results[0]!.disposition).toBe("NO_FORWARD");
     const entry = h.store.getEntries()[0]!;
     expect(entry.outcome).toBe("NO_FORWARD");
-    expect(entry.finalCategory).toBe("Recruitment_Referral");
+    expect(entry.finalCategory).toBe("Partner_Business_Referral");
     expect(entry.recipients).toBeUndefined();
     expect(h.forwardCalls).toHaveLength(0);
     expect(h.reviewQueue.size()).toBe(0);
   });
 
   it("routes an ambiguous (multi-category) email to the review queue with all candidates", () => {
-    const h = makeHarness([notification("n-ambig", ["ESG", "KOL"])]);
+    const h = makeHarness([notification("n-ambig", ["PR_Media_International", "KOL"])]);
 
     const results = h.pipeline.runOnce();
 
@@ -214,7 +214,10 @@ describe("RoutingPipeline end-to-end smoke test", () => {
     expect(h.reviewQueue.size()).toBe(1);
     const item = h.reviewQueue.getItems()[0]!;
     expect(item.reason).toBe("AMBIGUOUS");
-    expect(item.candidates?.map((c) => c.category).sort()).toEqual(["ESG", "KOL"]);
+    expect(item.candidates?.map((c) => c.category).sort()).toEqual([
+      "KOL",
+      "PR_Media_International",
+    ]);
   });
 
   it("routes an unclassified email to the review queue", () => {
@@ -259,7 +262,7 @@ describe("RoutingPipeline end-to-end smoke test", () => {
     const h = makeHarness([
       notification("m-forward", ["Domestic_Complaint"]),
       { messageId: "m-noise", from: "x@example.com", subject: "hi", body: "hi", attachments: [], receivedAt: 1 },
-      notification("m-review", ["ESG", "KOL"]),
+      notification("m-review", ["PR_Media_International", "KOL"]),
     ]);
 
     const first = h.pipeline.runOnce();

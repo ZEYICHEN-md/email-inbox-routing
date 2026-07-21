@@ -11,9 +11,9 @@ describe("parseClassifierJson", () => {
 
   it("parses JSON inside markdown fences", () => {
     const raw = parseClassifierJson(
-      '```json\n{"scores":[{"category":"Investment","score":0.8,"reasoning":"investor"}]}\n```',
+      '```json\n{"scores":[{"category":"Business_Cooperation","score":0.8,"reasoning":"b2b deal"}]}\n```',
     );
-    expect(raw.scores[0]!.category).toBe("Investment");
+    expect(raw.scores[0]!.category).toBe("Business_Cooperation");
   });
 });
 
@@ -24,7 +24,7 @@ describe("rawToCandidates", () => {
         scores: [
           { category: "Business_Cooperation", score: 1.5, reasoning: "high" },
           {
-            category: "Destination_Marketing_Other_Overseas",
+            category: "KOL",
             score: 0.9,
             reasoning: "excluded",
             exclude: true,
@@ -32,7 +32,7 @@ describe("rawToCandidates", () => {
           { category: "Unknown", score: 0.5, reasoning: "skip" },
         ],
       },
-      ["Business_Cooperation", "Destination_Marketing_Other_Overseas"],
+      ["Business_Cooperation", "KOL"],
     );
     expect(candidates).toHaveLength(1);
     expect(candidates[0]!.category).toBe("Business_Cooperation");

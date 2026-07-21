@@ -1,79 +1,54 @@
 /**
- * Unit / example tests for the Email_Classifier decision logic and the
- * merchant-side DM cooperation exclusion carve-out (Task 9.6).
- *
- * Requirement 6.5 is a classifier-prompt-level carve-out (a semantic judgment),
- * NOT a Routing_Rule_Set entry: for emails describing merchant-side DM
- * cooperation, `Destination_Marketing_Other_Overseas` must be excluded from the
- * candidate set. Here the mock classifier stub is configured to reflect that
- * carve-out, and we verify the category is excluded for those example emails
- * while remaining a candidate for unrelated ones.
- *
- * Requirements: 6.5 (plus 4.1, 4.2, 4.3, 4.4, 4.5 decision-function examples)
+ * Unit / example tests for the Email_Classifier decision logic and carve-outs.
  */
 import { describe, it, expect } from "vitest";
 import { MockEmailClassifier, decide, type MockScore } from "../../src/classifier/index.js";
 import type { Category } from "../../src/types/index.js";
 
-const DM_OTHER = "Destination_Marketing_Other_Overseas";
-const CANDIDATE_CATEGORIES: Category[] = [
-  "Business_Cooperation",
-  DM_OTHER,
-  "PR_Media_International",
-];
+const PARTNERSHIP_CATEGORIES: Category[] = ["Business_Cooperation", "KOL", "PR_Media_International"];
 
-/**
- * A classifier stub reflecting the Req 6.5 carve-out: when the content describes
- * merchant-side DM cooperation, exclude `Destination_Marketing_Other_Overseas`
- * from the candidate set (return null); otherwise score it normally.
- */
-function carveOutScorer(content: string, category: Category): MockScore {
-  const isMerchantSideDm = /merchant[- ]side dm cooperation/i.test(content);
-  if (category === DM_OTHER && isMerchantSideDm) {
-    return null; // excluded from candidates (Req 6.5)
+/** Mock carve-out: B2B platform deals exclude KOL; community campaigns prefer KOL. */
+function partnershipScorer(content: string, category: Category): MockScore {
+  const isB2b = /B2B|platform integration|merchant onboarding/i.test(content);
+  const isKol = /wellness community|discount vouchers|followers/i.test(content);
+
+  if (isB2b) {
+    if (category === "KOL") return null;
+    if (category === "Business_Cooperation") {
+      return { score: 0.92, reasoning: "B2B commercial integration" };
+    }
   }
-  if (category === "Business_Cooperation" && isMerchantSideDm) {
-    return { score: 0.9, reasoning: "merchant-side DM cooperation is a business cooperation matter" };
+  if (isKol) {
+    if (category === "Business_Cooperation") return { score: 0.25, reasoning: "partnership wording only" };
+    if (category === "KOL") {
+      return { score: 0.9, reasoning: "audience/community-led campaign" };
+    }
   }
   return { score: 0.2, reasoning: `baseline score for ${category}` };
 }
 
-describe("Req 6.5 — merchant-side DM cooperation excludes Destination_Marketing_Other_Overseas", () => {
-  const classifier = new MockEmailClassifier({ scorer: carveOutScorer });
+describe("KOL vs Business_Cooperation carve-out (mock)", () => {
+  const classifier = new MockEmailClassifier({ scorer: partnershipScorer });
 
-  it("excludes Destination_Marketing_Other_Overseas for a merchant-side DM cooperation email", () => {
-    const content =
-      "We run a merchant-side DM cooperation program and want to collaborate on merchant deals.";
-    const result = classifier.classify(content, CANDIDATE_CATEGORIES);
-
-    const cats = result.candidates.map((c) => c.category);
-    expect(cats).not.toContain(DM_OTHER);
-    // Other candidates are still scored.
-    expect(cats).toContain("Business_Cooperation");
-    expect(cats).toContain("PR_Media_International");
-  });
-
-  it("routes a merchant-side DM cooperation email to Business_Cooperation, not DM_Other", () => {
-    const content = "Inquiry about merchant-side DM cooperation for our hotel inventory.";
-    const result = classifier.classify(content, CANDIDATE_CATEGORIES);
+  it("routes B2B platform integration to Business_Cooperation and excludes KOL", () => {
+    const content = "We want B2B platform integration and merchant onboarding for our agency.";
+    const result = classifier.classify(content, PARTNERSHIP_CATEGORIES);
+    expect(result.candidates.map((c) => c.category)).not.toContain("KOL");
     const decision = decide(result, 0.5);
-
     expect(decision.kind).toBe("SingleCategory");
-    if (decision.kind !== "SingleCategory") throw new Error("expected SingleCategory");
-    expect(decision.category).toBe("Business_Cooperation");
+    if (decision.kind === "SingleCategory") {
+      expect(decision.category).toBe("Business_Cooperation");
+    }
   });
 
-  it("keeps Destination_Marketing_Other_Overseas as a candidate for an unrelated overseas DM email", () => {
+  it("routes community voucher campaigns to KOL", () => {
     const content =
-      "We are an overseas national tourism board seeking destination marketing collaboration.";
-    const result = classifier.classify(content, CANDIDATE_CATEGORIES);
-
-    const cats = result.candidates.map((c) => c.category);
-    expect(cats).toContain(DM_OTHER);
-    // Every candidate has exactly one bounded score.
-    for (const cand of result.candidates) {
-      expect(cand.score).toBeGreaterThanOrEqual(0);
-      expect(cand.score).toBeLessThanOrEqual(1);
+      "Our wellness community would love discount vouchers for followers on curated journeys.";
+    const result = classifier.classify(content, PARTNERSHIP_CATEGORIES);
+    const decision = decide(result, 0.5);
+    expect(decision.kind).toBe("SingleCategory");
+    if (decision.kind === "SingleCategory") {
+      expect(decision.category).toBe("KOL");
     }
   });
 });

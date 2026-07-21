@@ -97,11 +97,11 @@ function tokensFor(scenario: Scenario): string[] {
     case "forward_fail":
       return ["Domestic_Complaint"]; // FORWARD
     case "noforward":
-      return ["Recruitment_Referral"]; // NO_FORWARD_RESOLVE
+      return ["Partner_Business_Referral"]; // NO_FORWARD_RESOLVE
     case "review_required":
-      return ["Business_Travel_Flight_Distribution"]; // NO_FORWARD_REVIEW
+      return ["Needs_Manual_Review"]; // NO_FORWARD_REVIEW
     case "ambiguous":
-      return ["ESG", "KOL"]; // two FORWARD categories both qualify
+      return ["PR_Media_International", "KOL"]; // two FORWARD categories both qualify
     case "unclassified":
       return []; // nothing qualifies
   }

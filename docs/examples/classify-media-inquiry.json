@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "error": null,
+  "messageId": "manual-demo-media",
+  "submitterEmail": "work.atradiputra@example.com",
+  "candidates": [
+    {
+      "category": "PR_Media_International",
+      "score": 0.91,
+      "reasoning": "Sender asks about press coverage, interviews, and media kit materials."
+    },
+    {
+      "category": "Business_Cooperation",
+      "score": 0.28,
+      "reasoning": "Mentions collaboration but primary intent is editorial/media, not B2B supply integration."
+    },
+    {
+      "category": "KOL",
+      "score": 0.12,
+      "reasoning": "No audience/community voucher or influencer campaign signals."
+    }
+  ],
+  "decision": {
+    "kind": "SingleCategory",
+    "category": "PR_Media_International",
+    "score": 0.91,
+    "reasoning": "Sender asks about press coverage, interviews, and media kit materials."
+  },
+  "routing": {
+    "action": "FORWARD",
+    "to": ["pr-media@example.com"],
+    "cc": ["inbox-cc@example.com"],
+    "outlookTo": "pr-media@example.com",
+    "outlookCc": "inbox-cc@example.com"
+  }
+}

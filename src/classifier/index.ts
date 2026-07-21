@@ -10,7 +10,7 @@
  *   programmable per-category scores and reasoning strings, able to simulate a
  *   classification failure (Req 4.5) and to exclude a category from candidates
  *   for content-dependent carve-outs (e.g. the merchant-side DM cooperation
- *   exclusion of `Destination_Marketing_Other_Overseas`, Req 6.5). This keeps
+ *   prompt-level carve-outs (e.g. KOL vs Business_Cooperation)). This keeps
  *   downstream logic and tests independent of any live AI service.
  * - `decide(result, threshold)`: the pure decision function that maps a
  *   `ClassificationResult` to a `Decision` exactly per the design pseudocode.
@@ -67,7 +67,7 @@ export interface MockEmailClassifierOptions {
    * Fully custom, content-aware scorer. When provided it overrides the static
    * `scores`/`defaultScore`. Return `null` to exclude a category from candidates
    * (e.g. the merchant-side DM cooperation carve-out for
-   * `Destination_Marketing_Other_Overseas`, Req 6.5).
+   * KOL vs Business_Cooperation carve-outs).
    */
   scorer?: (formMessageContent: string, category: Category) => MockScore;
 }

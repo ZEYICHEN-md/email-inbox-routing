@@ -8,7 +8,7 @@
  *                                    stored with its score and a non-empty
  *                                    AI-generated reasoning note
  *   - `REVIEW_REQUIRED_CATEGORY`   — a category configured as review-required,
- *                                    e.g. Business_Travel_Flight_Distribution (Req 9.3)
+ *                                    e.g. Needs_Manual_Review (Req 9.3)
  *   - `READ_ERROR`                 — the email could not be read/parsed (Req 1.3)
  *   - `FORWARD_FAILED`             — native forward delivery failed (Req 14.3)
  *

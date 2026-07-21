@@ -49,7 +49,7 @@ const KOL_SIGNAL_PATTERNS: RegExp[] = [
 const B2B_SIGNAL_PATTERNS: RegExp[] = [
   /\bventure\s+studio\b/i,
   /\b(distribution|merchant|reseller)\b/i,
-  /\b(market[- ]entry|GKA)\b/i,
+  /\b(market[- ]entry|enterprise)\b/i,
   /\b(platform|api)\s+integration\b/i,
   /\b(e-?commerce|fintech)\s+platform\b/i,
   /\bportfolio\s+(spans|includes)\b/i,

@@ -93,7 +93,7 @@ describe("Property 22: first valid email after marker, ignoring all others", () 
 
 describe("Property 23: classification consumes extracted form content, not relay metadata", () => {
   it("passes formMessageContent (never subject/sender) to the classifier", () => {
-    const categories: Category[] = ["Investment", "ESG"];
+    const categories: Category[] = ["Business_Cooperation", "KOL"];
 
     fc.assert(
       fc.property(validEmailArb, plainTextArb, (submitter, message) => {
@@ -164,8 +164,8 @@ describe("Property 24: missing marker / invalid following address is non-blockin
 
         // The email still flows through normal classification/routing: the
         // decision depends ONLY on classification, not on the extraction outcome.
-        const classifier = new MockEmailClassifier({ scores: { Investment: 0.9 }, defaultScore: 0.0 });
-        const decision = decide(classifier.classify(result.formMessageContent, ["Investment"]), 0.5);
+        const classifier = new MockEmailClassifier({ scores: { Business_Cooperation: 0.9 }, defaultScore: 0.0 });
+        const decision = decide(classifier.classify(result.formMessageContent, ["Business_Cooperation"]), 0.5);
         // A confident classification still decides a category (never blocked by
         // the unavailable submitter).
         expect(decision.kind).toBe("SingleCategory");

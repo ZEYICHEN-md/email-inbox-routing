@@ -29,7 +29,7 @@ Rules:
 - "score" must be a number from 0.0 to 1.0 (confidence).
 - "reasoning" must be a brief non-empty string for every scored category.
 - Set "exclude": true (and omit score) when a category must NOT be a candidate.
-- CRITICAL: If the message describes merchant-side destination marketing, set exclude:true for Destination_Marketing_Other_Overseas and score Business_Cooperation highly instead.
+- CRITICAL: Merchant-side commercial / distribution deals → Business_Cooperation (not KOL or PR_Media_International).
 - CRITICAL: News/media outlets asking about sponsored articles, rate cards, media kits, editorial services, or publication partnerships → score PR_Media_International highly; do NOT route those to Business_Cooperation unless it is clearly a non-media commercial deal.
 - CRITICAL (Flight_Complaint vs IBU vs Domestic): Split by market, NOT by complaint tone.
   (a) Overseas / international / Hong Kong / Macau / Taiwan / any non-mainland customer or order → IBU_Customer_Service, even if the message is a flight refund, weather disruption, or formal complaint. Score Flight_Complaint ≤0.35 and Domestic_Complaint ≤0.35.

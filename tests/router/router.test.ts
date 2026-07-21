@@ -86,8 +86,8 @@ describe("Task 11.4 — native-forward invocation", () => {
     const email = makeEmail();
     const decision: Decision = {
       kind: "SingleCategory",
-      category: "Investment",
-      candidate: { category: "Investment", score: 0.95, reasoning: "investment" },
+      category: "Business_Cooperation",
+      candidate: { category: "Business_Cooperation", score: 0.95, reasoning: "investment" },
     };
 
     router.route(email, decision, rules);

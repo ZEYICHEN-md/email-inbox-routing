@@ -46,7 +46,7 @@ const FORWARD_CATEGORIES = RULES.filter((r) => r.behavior === "FORWARD").map((r)
 const NO_FORWARD_RESOLVE_CATEGORIES = RULES.filter(
   (r) => r.behavior === "NO_FORWARD_RESOLVE",
 ).map((r) => r.category);
-const REVIEW_CATEGORY = "Business_Travel_Flight_Distribution"; // NO_FORWARD_REVIEW
+const REVIEW_CATEGORY = "Needs_Manual_Review"; // NO_FORWARD_REVIEW
 
 // --- Ports -----------------------------------------------------------------
 

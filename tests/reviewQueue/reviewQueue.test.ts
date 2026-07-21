@@ -49,7 +49,7 @@ describe("ReviewQueue enqueue", () => {
   it("stores every qualifying candidate with score and non-empty reasoning for AMBIGUOUS", () => {
     const queue = new ReviewQueue();
     const candidates: ClassificationCandidate[] = [
-      { category: "Investment", score: 0.8, reasoning: "mentions equity investment" },
+      { category: "Business_Cooperation", score: 0.8, reasoning: "mentions equity investment" },
       { category: "Business_Cooperation", score: 0.75, reasoning: "mentions partnership" },
     ];
 
@@ -76,8 +76,8 @@ describe("ReviewQueue enqueue", () => {
   it("rejects an AMBIGUOUS candidate with an empty reasoning note", () => {
     const queue = new ReviewQueue();
     const candidates: ClassificationCandidate[] = [
-      { category: "Investment", score: 0.8, reasoning: "ok" },
-      { category: "ESG", score: 0.7, reasoning: "   " },
+      { category: "Business_Cooperation", score: 0.8, reasoning: "ok" },
+      { category: "KOL", score: 0.7, reasoning: "   " },
     ];
     expect(() => queue.enqueue(makeEmail("g"), "AMBIGUOUS", candidates)).toThrow(
       ReviewQueueValidationError,
