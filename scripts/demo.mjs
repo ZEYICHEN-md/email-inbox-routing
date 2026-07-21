@@ -14,7 +14,7 @@ const sample = join(root, "docs", "examples", "classify-media-inquiry.json");
 const bodyPreview = readFileSync(fixture, "utf8").trim().split(/\r?\n/).slice(0, 6).join("\n");
 const result = readFileSync(sample, "utf8");
 
-console.log("=== Email Inbox Routing — offline demo ===\n");
+console.log("=== Email Inbox Routing - offline demo ===\n");
 console.log("Input fixture: fixtures/atra-media-inquiry.txt");
 console.log("-----");
 console.log(bodyPreview);
